@@ -1,4 +1,5 @@
 # Chatbot Phiên Dịch Việt-Nhật
+<img width="613" height="1012" alt="image" src="https://github.com/user-attachments/assets/95ab4a24-dce2-4e0c-abe0-ad8e9b73ae43" />
 
 ## 🧪 SRS Compliance Testing
 
