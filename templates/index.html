@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot OpenAI</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="chat-container">
+        <div id="chat-box" class="chat-box"></div>
+        <form id="chat-form" autocomplete="off">
+            <input type="text" id="user-input" maxlength="1000" placeholder="Nhập tin nhắn..." required />
+            <button type="submit">Gửi</button>
+        </form>
+        <div id="error-msg" class="error-msg"></div>
+    </div>
+    <script src="/static/app.js"></script>
+</body>
+</html>

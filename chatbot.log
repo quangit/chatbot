@@ -1,0 +1,84 @@
+2025-07-26 15:46:25,396 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.6:5000
+2025-07-26 15:46:25,396 INFO [33mPress CTRL+C to quit[0m
+2025-07-26 15:46:25,398 INFO  * Restarting with stat
+2025-07-26 15:46:26,002 WARNING  * Debugger is active!
+2025-07-26 15:46:26,006 INFO  * Debugger PIN: 690-853-805
+2025-07-26 16:05:03,310 INFO 127.0.0.1 - - [26/Jul/2025 16:05:03] "GET / HTTP/1.1" 200 -
+2025-07-26 16:05:03,372 INFO 127.0.0.1 - - [26/Jul/2025 16:05:03] "GET /static/style.css HTTP/1.1" 200 -
+2025-07-26 16:05:03,565 INFO 127.0.0.1 - - [26/Jul/2025 16:05:03] "GET /static/app.js HTTP/1.1" 200 -
+2025-07-26 16:05:04,358 INFO 127.0.0.1 - - [26/Jul/2025 16:05:04] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-07-26 16:08:25,254 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.6:5000
+2025-07-26 16:08:25,255 INFO [33mPress CTRL+C to quit[0m
+2025-07-26 16:08:25,257 INFO  * Restarting with stat
+2025-07-26 16:08:27,243 WARNING  * Debugger is active!
+2025-07-26 16:08:27,248 INFO  * Debugger PIN: 330-468-403
+2025-07-26 16:08:27,326 INFO 127.0.0.1 - - [26/Jul/2025 16:08:27] "GET / HTTP/1.1" 200 -
+2025-07-26 16:08:27,392 INFO 127.0.0.1 - - [26/Jul/2025 16:08:27] "GET /static/style.css HTTP/1.1" 200 -
+2025-07-26 16:08:27,393 INFO 127.0.0.1 - - [26/Jul/2025 16:08:27] "GET /static/app.js HTTP/1.1" 200 -
+2025-07-26 16:08:40,197 ERROR 0fc9c79f-d44b-4e0d-9928-05ded2ba8164 2025-07-26T09:08:40.195576 ERROR AttributeError
+2025-07-26 16:08:40,197 INFO 127.0.0.1 - - [26/Jul/2025 16:08:40] "[35m[1mPOST /api/chat HTTP/1.1[0m" 500 -
+2025-07-26 16:10:59,944 INFO  * Detected change in 'D:\\WorkSpace\\pythonProjects\\chatbot\\main.py', reloading
+2025-07-26 16:13:25,833 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.6:5000
+2025-07-26 16:13:25,833 INFO [33mPress CTRL+C to quit[0m
+2025-07-26 16:13:25,834 INFO  * Restarting with stat
+2025-07-26 16:13:26,647 WARNING  * Debugger is active!
+2025-07-26 16:13:26,650 INFO  * Debugger PIN: 690-853-805
+2025-07-26 16:14:01,559 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.6:5000
+2025-07-26 16:14:01,559 INFO [33mPress CTRL+C to quit[0m
+2025-07-26 16:14:01,560 INFO  * Restarting with stat
+2025-07-26 16:14:02,358 WARNING  * Debugger is active!
+2025-07-26 16:14:02,362 INFO  * Debugger PIN: 690-853-805
+2025-07-26 16:14:46,095 INFO 127.0.0.1 - - [26/Jul/2025 16:14:46] "GET / HTTP/1.1" 200 -
+2025-07-26 16:14:46,134 INFO 127.0.0.1 - - [26/Jul/2025 16:14:46] "GET /static/style.css HTTP/1.1" 200 -
+2025-07-26 16:14:46,356 INFO 127.0.0.1 - - [26/Jul/2025 16:14:46] "GET /static/app.js HTTP/1.1" 200 -
+2025-07-26 16:15:18,113 INFO 127.0.0.1 - - [26/Jul/2025 16:15:18] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2025-07-26 16:15:18,432 INFO 127.0.0.1 - - [26/Jul/2025 16:15:18] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-07-26 16:15:26,228 INFO HTTP Request: POST https://aiportalapi.stu-platform.live/jpe/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 16:15:26,235 INFO 2929a4d6-153f-489b-b34b-fe62fee2adbd 2025-07-26T09:14:54.765800 200
+2025-07-26 16:15:26,235 INFO 127.0.0.1 - - [26/Jul/2025 16:15:26] "POST /api/chat HTTP/1.1" 200 -
+2025-07-26 16:16:23,952 INFO  * Detected change in 'd:\\WorkSpace\\pythonProjects\\chatbot\\main.py', reloading
+2025-07-26 16:16:24,141 INFO  * Restarting with stat
+2025-07-26 16:16:24,983 WARNING  * Debugger is active!
+2025-07-26 16:16:24,987 INFO  * Debugger PIN: 690-853-805
+2025-07-26 16:16:42,029 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.6:5000
+2025-07-26 16:16:42,030 INFO [33mPress CTRL+C to quit[0m
+2025-07-26 16:16:42,032 INFO  * Restarting with stat
+2025-07-26 16:16:42,847 WARNING  * Debugger is active!
+2025-07-26 16:16:42,850 INFO  * Debugger PIN: 690-853-805
+2025-07-26 16:18:13,111 INFO 127.0.0.1 - - [26/Jul/2025 16:18:13] "GET / HTTP/1.1" 200 -
+2025-07-26 16:18:13,134 INFO 127.0.0.1 - - [26/Jul/2025 16:18:13] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-07-26 16:18:13,414 INFO 127.0.0.1 - - [26/Jul/2025 16:18:13] "GET /static/style.css HTTP/1.1" 200 -
+2025-07-26 16:18:13,450 INFO 127.0.0.1 - - [26/Jul/2025 16:18:13] "GET /static/app.js HTTP/1.1" 200 -
+2025-07-26 16:18:55,181 INFO HTTP Request: POST https://aiportalapi.stu-platform.live/jpe/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 16:18:55,188 INFO 3744e424-44d9-4349-8273-ee1c21ea08c0 2025-07-26T09:18:23.872385 200
+2025-07-26 16:18:55,188 INFO 127.0.0.1 - - [26/Jul/2025 16:18:55] "POST /api/chat HTTP/1.1" 200 -
+2025-07-26 16:20:25,779 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.6:5000
+2025-07-26 16:20:25,779 INFO [33mPress CTRL+C to quit[0m
+2025-07-26 16:20:25,780 INFO  * Restarting with stat
+2025-07-26 16:20:26,570 WARNING  * Debugger is active!
+2025-07-26 16:20:26,573 INFO  * Debugger PIN: 690-853-805
+2025-07-26 16:22:08,958 INFO 127.0.0.1 - - [26/Jul/2025 16:22:08] "GET / HTTP/1.1" 200 -
+2025-07-26 16:22:08,971 INFO 127.0.0.1 - - [26/Jul/2025 16:22:08] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+2025-07-26 16:22:09,249 INFO 127.0.0.1 - - [26/Jul/2025 16:22:09] "GET /static/style.css HTTP/1.1" 200 -
+2025-07-26 16:22:09,283 INFO 127.0.0.1 - - [26/Jul/2025 16:22:09] "GET /static/app.js HTTP/1.1" 200 -
+2025-07-26 16:23:05,436 INFO HTTP Request: POST https://aiportalapi.stu-platform.live/jpe/chat/completions "HTTP/1.1 401 Unauthorized"
+2025-07-26 16:23:05,437 ERROR dad16ec8-1ad5-448a-a594-184fc651f75b 2025-07-26T09:22:34.615519 ERROR AuthenticationError
+2025-07-26 16:23:05,437 INFO 127.0.0.1 - - [26/Jul/2025 16:23:05] "[35m[1mPOST /api/chat HTTP/1.1[0m" 500 -
