@@ -3,18 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot OpenAI</title>
+    <title>Chatbot Phiên Dịch Việt-Nhật</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <div class="chat-container">
+        <div class="header">
+            <h2>🌐 Chatbot Phiên Dịch Việt ↔ Nhật</h2>
+            <div class="controls">
+                <select id="source-lang">
+                    <option value="auto">Tự động</option>
+                    <option value="vi">Tiếng Việt</option>
+                    <option value="ja">Tiếng Nhật</option>
+                </select>
+                <button id="batch-btn" type="button">📝 Batch Dịch</button>
+            </div>
+        </div>
+        
         <div id="chat-box" class="chat-box"></div>
+        
         <form id="chat-form" autocomplete="off">
-            <input type="text" id="user-input" maxlength="1000" placeholder="Nhập tin nhắn..." required />
+            <input type="text" id="user-input" maxlength="1000" placeholder="Nhập tin nhắn để dịch..." required />
             <button type="submit">Gửi</button>
         </form>
+        
         <div id="error-msg" class="error-msg"></div>
     </div>
+
+    <!-- Batch Translation Modal -->
+    <div id="batch-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Dịch Batch (Tối đa 50 câu)</h3>
+            <textarea id="batch-text" placeholder="Nhập nhiều câu, mỗi câu 1 dòng..." rows="10"></textarea>
+            <div class="modal-actions">
+                <button id="batch-translate-btn">Dịch Batch</button>
+                <button id="batch-cancel-btn">Hủy</button>
+            </div>
+            <div id="batch-results" class="batch-results"></div>
+        </div>
+    </div>
+
     <script src="/static/app.js"></script>
 </body>
 </html>

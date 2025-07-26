@@ -4,6 +4,7 @@ body {
     margin: 0;
     padding: 0;
 }
+
 .chat-container {
     max-width: 480px;
     margin: 40px auto;
@@ -15,6 +16,49 @@ body {
     flex-direction: column;
     min-height: 80vh;
 }
+
+.header {
+    background: #0078d4;
+    color: white;
+    padding: 16px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+#source-lang {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+#batch-btn {
+    background: #fff;
+    color: #0078d4;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+#batch-btn:hover {
+    background: #f0f0f0;
+}
+
 .chat-box {
     flex: 1;
     overflow-y: auto;
@@ -22,9 +66,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    border-bottom: 1px solid #eee;
     min-height: 320px;
 }
+
 .bubble {
     max-width: 80%;
     padding: 10px 16px;
@@ -33,21 +77,33 @@ body {
     word-break: break-word;
     font-size: 1rem;
 }
+
 .bubble.user {
     align-self: flex-end;
     background: #0078d4;
     color: #fff;
 }
+
 .bubble.bot {
     align-self: flex-start;
     background: #e5e5ea;
     color: #222;
 }
+
+.bubble.info {
+    align-self: center;
+    background: #fff3cd;
+    color: #856404;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
 #chat-form {
     display: flex;
     padding: 12px 16px 0 16px;
     gap: 8px;
 }
+
 #user-input {
     flex: 1;
     padding: 8px 12px;
@@ -55,6 +111,7 @@ body {
     border: 1px solid #ccc;
     font-size: 1rem;
 }
+
 button[type="submit"] {
     background: #0078d4;
     color: #fff;
@@ -65,9 +122,11 @@ button[type="submit"] {
     cursor: pointer;
     transition: background 0.2s;
 }
+
 button[type="submit"]:hover {
     background: #005fa3;
 }
+
 .error-msg {
     color: #d8000c;
     text-align: center;
@@ -75,6 +134,125 @@ button[type="submit"]:hover {
     min-height: 20px;
     font-size: 0.95rem;
 }
+
+.success-msg {
+    color: #28a745;
+    text-align: center;
+    margin-top: 8px;
+    min-height: 20px;
+    font-size: 0.95rem;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: none;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #000;
+}
+
+.modal h3 {
+    margin-top: 0;
+    color: #0078d4;
+}
+
+#batch-text {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.95rem;
+    resize: vertical;
+}
+
+.modal-actions {
+    margin: 16px 0;
+    display: flex;
+    gap: 8px;
+}
+
+.modal-actions button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#batch-translate-btn {
+    background: #0078d4;
+    color: white;
+}
+
+#batch-cancel-btn {
+    background: #6c757d;
+    color: white;
+}
+
+.batch-results {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 12px;
+    background: #f8f9fa;
+    display: none;
+}
+
+.batch-item {
+    margin-bottom: 12px;
+    padding: 8px;
+    border-left: 3px solid #0078d4;
+    background: white;
+}
+
+.batch-item.error {
+    border-left-color: #dc3545;
+}
+
+.batch-original {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.batch-translation {
+    color: #495057;
+}
+
+.batch-error {
+    color: #dc3545;
+    font-style: italic;
+}
+
 @media (max-width: 600px) {
     .chat-container {
         max-width: 100vw;
@@ -82,7 +260,59 @@ button[type="submit"]:hover {
         border-radius: 0;
         min-height: 100vh;
     }
+    
+    .header {
+        border-radius: 0;
+        flex-direction: column;
+        gap: 8px;
+        align-items: stretch;
+    }
+    
+    .controls {
+        justify-content: center;
+    }
+    
     .chat-box {
         min-height: 240px;
     }
+    
+    .modal-content {
+        width: 95%;
+        margin: 2% auto;
+    }
+}
+
+/* Test controls styling */
+.test-controls {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.test-btn {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.test-btn:hover {
+    background-color: #138496;
+}
+
+.test-results {
+    margin-top: 10px;
+    font-family: monospace;
+    font-size: 12px;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #f1f3f4;
+    padding: 10px;
+    border-radius: 4px;
 }
