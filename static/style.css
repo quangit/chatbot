@@ -76,6 +76,77 @@ body {
     margin-bottom: 2px;
     word-break: break-word;
     font-size: 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.bubble-content {
+    flex: 1;
+}
+
+.play-button {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.play-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.1);
+}
+
+.play-button:active {
+    transform: scale(0.95);
+}
+
+.play-button svg {
+    color: rgba(255, 255, 255, 0.9);
+    transition: color 0.3s ease;
+}
+
+.play-button:hover svg {
+    color: rgba(255, 255, 255, 1);
+}
+
+.play-button.playing {
+    background: #4CAF50;
+    border-color: #45a049;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.bubble.bot .play-button {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+.bubble.bot .play-button svg {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.bubble.bot .play-button:hover {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+.bubble.bot .play-button:hover svg {
+    color: rgba(0, 0, 0, 0.8);
 }
 
 .bubble.user {

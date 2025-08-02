@@ -8,6 +8,12 @@ import re
 from datetime import datetime, timedelta
 from flask_cors import CORS
 from dotenv import load_dotenv
+import requests
+from transformers import VitsModel, AutoTokenizer
+import torch
+import scipy.io.wavfile
+import io
+import base64
 
 load_dotenv()
 
@@ -30,6 +36,51 @@ client = openai.OpenAI(
     api_key=os.getenv("OPENAI_API_KEY", "")
 )
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo")
+
+# Hugging Face TTS configuration
+HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY", "")
+
+# Global TTS model variables
+tts_model_vi = None
+tts_tokenizer_vi = None
+tts_model_ja = None
+tts_tokenizer_ja = None
+
+def initialize_tts_models():
+    """Initialize TTS models on startup"""
+    global tts_model_vi, tts_tokenizer_vi, tts_model_ja, tts_tokenizer_ja
+    
+    try:
+        # Vietnamese TTS model
+        model_name_vi = "facebook/mms-tts-vie"
+        print(f"Loading Vietnamese model: {model_name_vi}")
+        tts_model_vi = VitsModel.from_pretrained(model_name_vi)
+        tts_tokenizer_vi = AutoTokenizer.from_pretrained(model_name_vi)
+        print("Vietnamese model and tokenizer loaded successfully.")
+        
+        # Japanese TTS model
+        model_name_ja = "facebook/mms-tts-jpn"
+        print(f"Loading Japanese model: {model_name_ja}")
+        try:
+            tts_model_ja = VitsModel.from_pretrained(model_name_ja)
+            tts_tokenizer_ja = AutoTokenizer.from_pretrained(model_name_ja)
+            print("Japanese model and tokenizer loaded successfully.")
+        except Exception as ja_error:
+            print(f"Japanese model failed: {ja_error}, trying alternative...")
+            # Try alternative Japanese model
+            model_name_ja = "espnet/kan-bayashi_ljspeech_vits"
+            try:
+                tts_model_ja = VitsModel.from_pretrained(model_name_ja)
+                tts_tokenizer_ja = AutoTokenizer.from_pretrained(model_name_ja)
+                print("Alternative Japanese model loaded successfully.")
+            except Exception as alt_error:
+                print(f"Alternative Japanese model also failed: {alt_error}")
+                tts_model_ja = None
+                tts_tokenizer_ja = None
+        
+    except Exception as e:
+        print(f"Error loading TTS models: {e}")
+        print("TTS functionality will use fallback method.")
 
 # Function definitions for Function Calling
 FUNCTIONS = [
@@ -142,6 +193,93 @@ def batch_mock():
         {"id": 105, "text": "Tính chi phí công tác 5 ngày, 300 USD."}
     ]
     return jsonify(batch_data)
+
+@app.route("/api/tts", methods=["POST"])
+def text_to_speech():
+    """Convert text to speech using local Hugging Face TTS models"""
+    req_id = str(uuid.uuid4())
+    start_time = datetime.utcnow()
+    
+    try:
+        data = request.get_json(force=True)
+        text = data.get("text", "")
+        language = data.get("language", "vi")  # vi or ja
+        
+        if not text or len(text) > 500:
+            return jsonify({"error": "Text không hợp lệ (max 500 ký tự)."}), 400
+        
+        # Select model based on language
+        if language == "ja":
+            model = tts_model_ja
+            tokenizer = tts_tokenizer_ja
+            model_name = "facebook/mms-tts-jpn"  # Or alternative if available
+        else:  # Vietnamese
+            model = tts_model_vi
+            tokenizer = tts_tokenizer_vi
+            model_name = "facebook/mms-tts-vie"
+        
+        # Check if models are loaded
+        if model is None or tokenizer is None:
+            # Fallback: try to load model on-demand
+            try:
+                print(f"Loading model on-demand: {model_name}")
+                if language == "ja":
+                    model = VitsModel.from_pretrained(model_name)
+                    tokenizer = AutoTokenizer.from_pretrained(model_name)
+                else:
+                    model = VitsModel.from_pretrained(model_name)
+                    tokenizer = AutoTokenizer.from_pretrained(model_name)
+                print("Model and tokenizer loaded successfully.")
+            except Exception as e:
+                print(f"Error loading model: {e}")
+                return jsonify({"error": "TTS model không khả dụng."}), 503
+        
+        # Generate speech
+        try:
+            # Tokenize text
+            inputs = tokenizer(text, return_tensors="pt")
+            
+            # Generate audio
+            with torch.no_grad():
+                output = model(**inputs).waveform
+            
+            # Convert to numpy array
+            audio_data = output.squeeze().cpu().numpy()
+            
+            # Convert to WAV format in memory
+            sample_rate = 22050  # Standard sample rate for MMS models
+            audio_buffer = io.BytesIO()
+            
+            # Normalize audio data to 16-bit range
+            audio_data_int16 = (audio_data * 32767).astype('int16')
+            
+            # Write WAV data to buffer
+            scipy.io.wavfile.write(audio_buffer, sample_rate, audio_data_int16)
+            audio_buffer.seek(0)
+            
+            # Encode to base64
+            audio_base64 = base64.b64encode(audio_buffer.getvalue()).decode('utf-8')
+            
+            latency_ms = int((datetime.utcnow() - start_time).total_seconds() * 1000)
+            logging.info(f"{req_id} TTS success {language} {latency_ms}ms")
+            
+            return jsonify({
+                "audio_base64": audio_base64,
+                "content_type": "audio/wav",
+                "language": language,
+                "model": model_name,
+                "request_id": req_id,
+                "latency_ms": latency_ms
+            })
+            
+        except Exception as e:
+            logging.error(f"{req_id} TTS generation error: {e}")
+            return jsonify({"error": "Lỗi sinh âm thanh."}), 500
+        
+    except Exception as ex:
+        latency_ms = int((datetime.utcnow() - start_time).total_seconds() * 1000)
+        logging.error(f"{req_id} TTS ERROR {type(ex).__name__}: {str(ex)} latency:{latency_ms}ms")
+        return jsonify({"error": "Lỗi máy chủ TTS."}), 500
 
 @app.route("/api/translate", methods=["POST"])
 def translate():
@@ -340,4 +478,8 @@ def batch_translate():
         return jsonify({"error": "Lỗi xử lý batch."}), 500
 
 if __name__ == "__main__":
+    # Initialize TTS models
+    print("Initializing TTS models...")
+    initialize_tts_models()
+    print("Starting Flask application...")
     app.run(host="0.0.0.0", port=5000, debug=True)

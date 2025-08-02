@@ -14,7 +14,32 @@ const userId = 'user_' + Math.random().toString(36).substr(2, 9);
 function appendBubble(text, sender, extra = '') {
     const bubble = document.createElement('div');
     bubble.className = 'bubble ' + sender;
-    bubble.innerHTML = text;
+    
+    // Create content container
+    const content = document.createElement('div');
+    content.className = 'bubble-content';
+    content.innerHTML = text;
+    
+    // Create play button
+    const playButton = document.createElement('button');
+    playButton.className = 'play-button';
+    playButton.title = 'Phát âm thanh';
+    playButton.innerHTML = `
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+        </svg>
+    `;
+    
+    // Determine language for TTS
+    const isVietnamese = /[àáảãạăắằẳẵặâấầẩẫậèéẻẽẹêếềểễệìíỉĩịòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựỳýỷỹỵđ]/i.test(text);
+    const language = isVietnamese ? 'vi' : 'ja';
+    
+    playButton.onclick = () => playMessage(playButton, text, language);
+    
+    // Assemble bubble
+    bubble.appendChild(content);
+    bubble.appendChild(playButton);
+    
     if (extra) {
         const extraDiv = document.createElement('div');
         extraDiv.className = 'bubble info';
@@ -23,6 +48,65 @@ function appendBubble(text, sender, extra = '') {
     }
     chatBox.appendChild(bubble);
     chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+// TTS functionality
+async function playMessage(button, text, language) {
+    if (button.classList.contains('playing')) {
+        return; // Already playing
+    }
+    
+    try {
+        button.classList.add('playing');
+        button.innerHTML = `
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+            </svg>
+        `;
+        
+        const response = await fetch('/api/tts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                text: text,
+                language: language
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            // Create audio element and play
+            const audio = new Audio();
+            audio.src = `data:${data.content_type};base64,${data.audio_base64}`;
+            
+            audio.onended = () => {
+                resetPlayButton(button);
+            };
+            
+            audio.onerror = () => {
+                showError('Lỗi phát âm thanh.');
+                resetPlayButton(button);
+            };
+            
+            await audio.play();
+        } else {
+            showError(data.error || 'Lỗi TTS.');
+            resetPlayButton(button);
+        }
+    } catch (error) {
+        showError('Không thể kết nối TTS.');
+        resetPlayButton(button);
+    }
+}
+
+function resetPlayButton(button) {
+    button.classList.remove('playing');
+    button.innerHTML = `
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+        </svg>
+    `;
 }
 
 function showError(message, type = 'error') {
